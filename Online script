@@ -1,0 +1,142 @@
+//==============================================================================//
+//										//
+// Name: 	Quick Dodge Script for the scout				//
+// Author:	C-YA | Mar_Tzipan						//
+// Date:	09/10/2007 							//
+//										//
+//==============================================================================//
+//										//
+// Description:	This script adds functionality to your movement			//
+// 		keys by performing a quick dodge whenever 			//
+//		tapped twice (such as in Unreal Tournament)			//
+//										//
+// Usage:	Holding or pressing the movement keys would			//
+//		result in regular movement. the script is only			//
+//		triggered when a movement key is held for a 			//
+//		very short period of time, gets released, and 			//
+//		once again gets pressed (meaning tapped twice).			//
+//										//
+// Restriction:	The script is useable by all classes.				//
+//		However, only the scout can utilize its full 			//
+//		potential.							//
+//										//
+// Activation:  The script must be loaded to be used, this can			//
+//		be achieved by using the EXEC command ingame			//
+//		and specifing this file's name (Dodge.cfg), or			//
+//		by appending it to your autoexec.cfg, or by 			//
+//		issuing the EXEC command from the autoexec.cfg.			//
+//		NOTE: all files mentioned above must reside in			//
+//		..\SteamApps\<USER>\team fortress 2\tf\cfg			//
+//										//
+// Setting up:	To use this script, you must bind the aliases 			//
+//		named: "+MoveDodgeUp", "+MoveDodgeDown", 			//
+//		"+MoveDodgeLeft" and "+MoveDodgeRight".				//
+//		"+InAirAction" and "-InAirAction" are available 		//
+//		for doing actions in mid air (such as ducking).			//
+//		Default setting for all of these can be found			//
+//		at the bottom of this script.					//
+//										//
+// Issues:	Dodging with classes other than scout will 			//
+//		result in a pathetic little hop, I suggest 			//
+//		refraining from it.						//
+//										//
+// Notes:	The script would work for a scout even if the 			//
+//		first jump has been used up (or if falling)			//
+//		Experiment with it to view the possibilities.			//
+//		For some reason, aliasing the wait commands did 		//
+//		not work for me, so many in the future this 			//
+//		script would be more tweakable.					//
+//										//
+// Credits:	http://tf2wiki.net/index.php/Scripting				//
+//		http://tf2wiki.net/index.php/Community_Scripts			//
+//		And everyone who contributed to them.				//
+//										//
+//										//
+//  Copyright 2007 Mar_Tzipan http://clancya.org/				//
+//  This program is free software: you can redistribute it and/or modify	//
+//  it under the terms of the GNU General Public License as published by	//
+//  the Free Software Foundation, either version 3 of the License, or		//
+//  (at your option) any later version.						//
+//										//
+//  This program is distributed in the hope that it will be useful,		//
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of		//
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the		//
+//  GNU General Public License for more details.				//
+//										//
+//  You should have received a copy of the GNU General Public License		//
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.	//
+//										//
+//==============================================================================//
+
+//==============================================================================//
+// Dodge forward                                                        	//
+// Since all the groups are basically the same, only this one is explained 	//
+//==============================================================================//
+
+// Set the bindable alias to perform SetMoveUp whenever held
+alias +MoveDodgeUp 	"SetMoveUp;"
+
+// Set the bindable alias to perform SetDodgeUp whenever released
+alias -MoveDodgeUp 	"SetDodgeUp;"
+
+// Start moving forward and the release alias to perform SetDodgeUp, 
+// after the wait period, the release alias is set to stop movement,
+// thus disabling the dodge for this instance.
+// The wait period determines how fast you have to let go, after
+// pressing the movement key, in-order to enable dodging"
+alias SetMoveUp 	"+Forward; alias -MoveDodgeUp SetDodgeUp; wait 15; alias -MoveDodgeUp HaltMoveUp;"
+
+// Halting movement and setting the next key press to dodge,
+// after the wait period, the alias returns to movement functionality.
+// The wait period determines how fast you must tap the key in-order to dodge.
+alias SetDodgeUp 	"-Forward; alias +MoveDodgeUp DodgeUp; wait 15;  alias +MoveDodgeUp SetMoveUp;"
+
+// Stop movement and reset the alias
+alias HaltMoveUp 	"-Forward; alias -MoveDodgeUp SetDodgeUp;"
+
+// Perform the actual dodge, InAirAction allows you to add actions of your own while in mid air.
+alias DodgeUp 		"+Forward; wait 2; +jump; wait 2; +InAirAction;-jump; wait 2; +jump; wait 2; -jump; wait 60; -InAirAction;"
+
+//============//
+// Dodge back //
+//============//
+alias +MoveDodgeDown 	"SetMoveDown;"
+alias -MoveDodgeDown 	"SetDodgeDown;"
+alias SetMoveDown 	"+Back; alias -MoveDodgeDown SetDodgeDown; wait 15; alias -MoveDodgeDown HaltMoveDown;"
+alias SetDodgeDown 	"-Back; alias +MoveDodgeDown DodgeDown; wait 15;  alias +MoveDodgeDown SetMoveDown;"
+alias HaltMoveDown 	"-Back; alias -MoveDodgeDown SetDodgeDown;"
+alias DodgeDown 	"+Back; wait 2; +jump; wait 2; +InAirAction; -jump; wait 2; +jump; wait 2; -jump; wait 60; -InAirAction;"
+
+//============//
+// Dodge Left //
+//============//
+alias +MoveDodgeLeft 	"SetMoveLeft;"
+alias -MoveDodgeLeft 	"SetDodgeLeft;"
+alias SetMoveLeft 	"+MoveLeft; alias -MoveDodgeLeft SetDodgeLeft; wait 15; alias -MoveDodgeLeft HaltMoveLeft;"
+alias SetDodgeLeft 	"-MoveLeft; alias +MoveDodgeLeft DodgeLeft; wait 15;  alias +MoveDodgeLeft SetMoveLeft;"
+alias HaltMoveLeft 	"-MoveLeft; alias -MoveDodgeLeft SetDodgeLeft;"
+alias DodgeLeft 	"+MoveLeft; wait 2; +jump; wait 2; +InAirAction; -jump; wait 2; +jump; wait 2; -jump; wait 60; -InAirAction;"
+
+//=============//
+// Dodge Right //
+//=============//
+alias +MoveDodgeRight 	"SetMoveRight;"
+alias -MoveDodgeRight 	"SetDodgeRight;"
+alias SetMoveRight 	"+MoveRight; alias -MoveDodgeRight SetDodgeRight; wait 15; alias -MoveDodgeRight HaltMoveRight;"
+alias SetDodgeRight 	"-MoveRight; alias +MoveDodgeRight DodgeRight; wait 15;  alias +MoveDodgeRight SetMoveRight;"
+alias HaltMoveRight 	"-MoveRight; alias -MoveDodgeRight SetDodgeRight;"
+alias DodgeRight 	"+MoveRight; wait 2; +jump; wait 2; +InAirAction; -jump; wait 2; +jump; wait 2; -jump; wait 60; -InAirAction;"
+
+//=========================================//
+// Binds - This is what you want to change //
+//=========================================//
+bind "UpArrow" 		"+MoveDodgeUp"
+bind "DownArrow" 	"+MoveDodgeDown"
+bind “f” 	"+MoveDodgeLeft"
+bind “g” 	"+MoveDodgeRight"
+
+//============================================//
+// InAction - This is what you want to change //
+//============================================//
+alias +InAirAction 	"+Duck"
+alias -InAirAction 	"-Duck"
